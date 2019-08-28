@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    traefik:
+        container_name: traefik
+        build: ./
+        command:
+            - "--api"
+            - "--entrypoints=Name:http Address::80 Redirect.EntryPoint:https Redirect.Permanent:true"
+            - "--entrypoints=Name:https Address::443 TLS"
+            - "--defaultentrypoints=http,https"
+            - "--acme"
+            - "--acme.storage=/etc/traefik/acme/acme.json"
+            - "--acme.entryPoint=https"
+            - "--acme.httpChallenge.entryPoint=http"
+            - "--acme.OnHostRule=true"
+            - "--acme.onDemand=false"
+            - "--acme.email=test@example.com"    
+            - "--docker"
+        ports:
+          - "80:80"     #The HTTP port
+          - "443:443"     #The HTTPs port
+          - "8080:8080" #The Web UI (enabled by --api)
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock #So that Traefik can listen to the Docker events
+
+networks:
+    default:
+        external:
+            name: dev
