@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
     traefik:
@@ -15,7 +15,7 @@ services:
             - "--acme.httpChallenge.entryPoint=http"
             - "--acme.OnHostRule=true"
             - "--acme.onDemand=false"
-            - "--acme.email=test@example.com"    
+            - "--acme.email=abm@austinbmiles.com"    
             - "--docker"
         ports:
           - "80:80"     #The HTTP port
